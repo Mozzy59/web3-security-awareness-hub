@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm i -g markdownlint-cli
+      - run: markdownlint "**/*.md" || true
+
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Link Check
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress --accept 200,429 "**/*.md"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
