@@ -1,0 +1,2 @@
+# Contributing
+Fork → branch → PR.
